@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Electron App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 300px;
+      padding: 5px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #clearButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to My Electron App</h1>
+
+  <input type="text" id="textField" placeholder="Enter button name">
+  <button id="createButton">Create Button</button>
+
+  <div id="buttonContainer"></div>
+
+  <button id="clearButton">Clear Data</button>
+
+  <script>
+    const createButton = document.getElementById('createButton');
+    const textField = document.getElementById('textField');
+    const buttonContainer = document.getElementById('buttonContainer');
+    const clearButton = document.getElementById('clearButton');
+
+    let storedButtons = JSON.parse(localStorage.getItem('buttons')) || [];
+
+    // Populate stored buttons on application start
+    storedButtons.forEach(buttonText => {
+      createDynamicButton(buttonText);
+    });
+
+    createButton.addEventListener('click', () => {
+      const buttonText = textField.value.trim();
+      if (buttonText !== '') {
+        createDynamicButton(buttonText);
+
+        // Update the stored buttons array
+        storedButtons.push(buttonText);
+
+        // Store the updated buttons in local storage
+        localStorage.setItem('buttons', JSON.stringify(storedButtons));
+      }
+    });
+
+    clearButton.addEventListener('click', () => {
+      // Clear the stored buttons and remove from local storage
+      storedButtons = [];
+      localStorage.removeItem('buttons');
+
+      // Clear the button container in the UI
+      buttonContainer.innerHTML = '';
+    });
+
+    function createDynamicButton(buttonText) {
+      const newButton = document.createElement('button');
+      newButton.textContent = buttonText;
+      buttonContainer.appendChild(newButton);
+    }
+  </script>
+</body>
+</html>
