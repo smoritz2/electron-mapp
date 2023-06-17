@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@novnc/novnc": "^1.4.0"
+    "@novnc/novnc": "^1.4.0",
+    "electron": "^12.0.0"
   }
 }
